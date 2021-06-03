@@ -204,6 +204,10 @@ export default {
     },
 
     openMenu(e) {
+      if (e.srcElement.id) {
+        const fullPath = e.srcElement.id.split('-')[1]
+        this.selectedTag = this.visitedViews.find(item => item.fullPath === fullPath)
+      }
       const menuMinWidth = 105
       const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
       const offsetWidth = this.$el.offsetWidth // container width
@@ -218,7 +222,6 @@ export default {
 
       this.top = this.$el.getBoundingClientRect().top - 20
       this.visible = true
-      // this.selectedTag = tag
     },
     closeMenu() {
       this.visible = false
