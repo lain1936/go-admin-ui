@@ -104,3 +104,26 @@ export default {
     width: 100%;
   }
 </style>
+
+<style lang="scss">
+.is-opened .el-menu--inline {
+  background: #122150!important;
+}
+.is-opened .el-menu-item {
+  background: #122150!important;
+}
+.is-opened .el-submenu__title {
+  background: #122150!important;
+}
+.el-table th > .cell{
+  font-weight: 100
+}
+.el-card__body .el-table {
+  border: 1px solid #ebeef5;
+  border-bottom: none;
+  border-right:none;
+  th, td {
+    border-right: 1px solid #ebeef5;
+  }
+}
+</style>

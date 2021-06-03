@@ -6,7 +6,7 @@
         :default-active="activeMenu"
         :collapse="isCollapse"
         :background-color=" $store.state.settings.themeStyle === 'light' ? variables.menuLightBg : variables.menuBg"
-        :text-color="$store.state.settings.themeStyle === 'light' ? 'rgba(0,0,0,.65)' : '#fff'"
+        :text-color="$store.state.settings.themeStyle === 'light' ? 'rgba(0,0,0,.65)' : 'rgb(196, 201, 210)'"
         :active-text-color="$store.state.settings.theme"
         :unique-opened="true"
         :collapse-transition="true"

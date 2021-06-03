@@ -1,8 +1,11 @@
 <template>
-  <div id="tags-view-container" class="tags-view-container">
+  <div id="tags-view-container" class="tags-view-container  theme-tabs">
     <el-tabs
       v-model="editableTabsValue"
       type="card"
+      class="theme-tabs-content-smooth theme-tabs-content"
+      @contextmenu.prevent.native="openMenu(item,$event)"
+      @tab-click="changeTab"
       @tab-remove="closeSelectedTag"
     >
       <el-tab-pane
@@ -10,19 +13,10 @@
         :key="item.path"
         :closable="item.fullPath === '/dashboard' ? false : true"
         :name="item.fullPath"
-      >
-        <router-link
-          ref="tag"
-          slot="label"
-          tag="span"
-          class="tags-view-item"
-          :style="{ color: item.fullPath === $route.fullPath ? theme : '' }"
-          :to="{ path: item.path, query: item.query, fullPath: item.fullPath }"
-          @contextmenu.prevent.native="openMenu(item,$event)"
-        >
-          {{ item.title }}
-        </router-link>
-      </el-tab-pane>
+        :tab="item"
+        :label="item.title"
+        :style="{ color: item.fullPath === $route.fullPath ? theme : '' }"
+      />
     </el-tabs>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
       <li class="tags-item" @click="refreshSelectedTag(selectedTag)" @mouseover="handleTagsOver(1)" @mouseleave="handleTagsLeave(1)">刷新当前标签页</li>
@@ -76,6 +70,14 @@ export default {
     this.isActive()
   },
   methods: {
+    changeTab(component) {
+      const tab = component.$attrs.tab
+      this.$router.push({
+        name: tab.name,
+        query: tab.query,
+        params: tab.params
+      })
+    },
     handleTagsOver(index) {
       const tags = document.querySelectorAll('.tags-item')
       const item = tags[index - 1]
@@ -358,4 +360,101 @@ String.prototype.colorRgb = function() {
     }
   }
 }
+</style>
+
+<style lang="scss">
+//reset element css of el-icon-close
+.tags-view-wrapper {
+  .tags-view-item {
+    .el-icon-close {
+      width: 16px;
+      height: 16px;
+      vertical-align: 2px;
+      border-radius: 50%;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transform-origin: 100% 50%;
+      &:before {
+        transform: scale(0.6);
+        display: inline-block;
+        vertical-align: -3px;
+      }
+      &:hover {
+        background-color: #b4bccc;
+        color: #fff;
+      }
+    }
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+  .theme-tabs {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    height: 46px;
+    border:none;
+    user-select: none;
+    .theme-tabs-content {
+      width: calc(100% - 60px);
+      &-smooth {
+        height: 43px;
+
+        ::v-deep {
+          .el-tabs__nav-next,
+          .el-tabs__nav-prev {
+            height: 43px;
+            line-height: 43px;
+          }
+
+          .el-tabs__header {
+            border-bottom: 0;
+
+            .el-tabs__nav {
+              border: 0;
+            }
+
+            .el-tabs__item {
+              height: 38px;
+              padding: 0 30px 0 30px;
+              margin-top: 6px;
+              margin-right: -18px;
+              line-height: 38px;
+              text-align: center;
+              text-align: center;
+              border: 0;
+              transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+
+              &.is-active {
+                padding: 0 30px 0 30px;
+                color: #3963BC;
+                background: #e8f4ff;
+                mask: url('~@/assets/tabs_images/smooth-tab.png');
+                mask-size: 100% 100%;
+
+                &:hover {
+                  padding: 0 30px 0 30px;
+                  color: #3963BC;
+                  background: #e8f4ff;
+                  mask: url('~@/assets/tabs_images/smooth-tab.png');
+                  mask-size: 100% 100%;
+                }
+              }
+
+              &:hover {
+                padding: 0 30px 0 30px;
+                background: #dee1e6;
+                mask: url('~@/assets/tabs_images/smooth-tab.png');
+                mask-size: 100% 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 </style>
