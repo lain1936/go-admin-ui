@@ -4,7 +4,7 @@
       v-model="editableTabsValue"
       type="card"
       class="theme-tabs-content-smooth theme-tabs-content"
-      @contextmenu.prevent.native="openMenu(item,$event)"
+      @contextmenu.prevent.native="openMenu($event)"
       @tab-click="changeTab"
       @tab-remove="closeSelectedTag"
     >
@@ -202,7 +202,8 @@ export default {
         }
       }
     },
-    openMenu(tag, e) {
+
+    openMenu(e) {
       const menuMinWidth = 105
       const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
       const offsetWidth = this.$el.offsetWidth // container width
@@ -215,9 +216,9 @@ export default {
         this.left = left
       }
 
-      this.top = e.clientY
+      this.top = this.$el.getBoundingClientRect().top - 20
       this.visible = true
-      this.selectedTag = tag
+      // this.selectedTag = tag
     },
     closeMenu() {
       this.visible = false
@@ -451,6 +452,11 @@ String.prototype.colorRgb = function() {
                 mask: url('~@/assets/tabs_images/smooth-tab.png');
                 mask-size: 100% 100%;
               }
+
+              &:focus {
+                 box-shadow: none;
+              }
+
             }
           }
         }
